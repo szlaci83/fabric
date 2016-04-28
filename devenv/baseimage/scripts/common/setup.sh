@@ -110,9 +110,14 @@ apt-get install -y build-essential libtool
 #./configure
 ./configure --prefix=/usr
 
-make
-make check
-make install
+if [ x$MACHINE = xs390x ]
+then
+   #FIXME: protobufs wont compile on 390, missing atomic call
+else
+   make
+   make check
+   make install
+fi
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 cd ~/
 
@@ -121,9 +126,10 @@ apt-get install -y libsnappy-dev zlib1g-dev libbz2-dev
 cd /tmp
 git clone https://github.com/facebook/rocksdb.git
 cd rocksdb
-if [ x$MACHINE = xx86_64 ]
+if [ x$MACHINE = xs390x ]
 then
     # There were some bugs in 4.1 for x/p, living dangereously, using dev stream till the fixes make into a tag
+else
     git checkout tags/v4.1
 fi
 

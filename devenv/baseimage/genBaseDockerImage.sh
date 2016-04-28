@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MACHINE=`uname -m`
-
+NAME=openblockchain/$MACHINE/baseimage
 BASEOS=ubuntu:trusty
 if [ x$MACHINE = xs390x ]
 then
@@ -21,5 +21,7 @@ COPY scripts /tmp/setup
 WORKDIR /tmp/setup
 RUN common/init.sh && docker/init.sh && common/setup.sh
 HEREDOC
+
+docker build -t $NAME .
 
 echo done

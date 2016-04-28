@@ -47,7 +47,8 @@
 #    is a compromise.
 # ---------------------------------------------------------------------------
 
-NAME=openblockchain/baseimage
+MACHINE=`uname -m`
+NAME=openblockchain/$MACHINE/baseimage
 RELEASE=$1
 FQN=$NAME:$RELEASE
 
