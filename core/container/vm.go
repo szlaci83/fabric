@@ -26,6 +26,8 @@ import (
 	"fmt"
 	"io"
 	"time"
+	"runtime"
+	"strings"
 
 	"golang.org/x/net/context"
 
@@ -210,7 +212,7 @@ func (vm *VM) getPackageBytes(writerFunc func(*tar.Writer) error) (io.Reader, er
 func (vm *VM) writePeerPackage(tw *tar.Writer) error {
 	startTime := time.Now()
 
-	dockerFileContents := viper.GetString("peer.Dockerfile")
+	dockerFileContents := strings.Replace(viper.GetString("peer.Dockerfile"), "GOARCH", runtime.GOARCH, 1)
 	dockerFileSize := int64(len([]byte(dockerFileContents)))
 
 	tw.WriteHeader(&tar.Header{Name: "Dockerfile", Size: dockerFileSize, ModTime: startTime, AccessTime: startTime, ChangeTime: startTime})
@@ -225,7 +227,7 @@ func (vm *VM) writePeerPackage(tw *tar.Writer) error {
 func (vm *VM) writeObccaPackage(tw *tar.Writer) error {
 	startTime := time.Now()
 
-	dockerFileContents := viper.GetString("peer.Dockerfile")
+	dockerFileContents := strings.Replace(viper.GetString("peer.Dockerfile"), "GOARCH", runtime.GOARCH, 1)
 	dockerFileContents = dockerFileContents + "WORKDIR ../membersrvc\nRUN go install && cp membersrvc.yaml $GOPATH/bin\n"
 	dockerFileSize := int64(len([]byte(dockerFileContents)))
 

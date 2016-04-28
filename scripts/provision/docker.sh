@@ -47,8 +47,8 @@
 #    is a compromise.
 # ---------------------------------------------------------------------------
 
-MACHINE=`uname -m`
-NAME=openblockchain/$MACHINE/baseimage
+GOARCH=`go env GOARCH`
+NAME=openblockchain/$GOARCH/baseimage
 RELEASE=$1
 FQN=$NAME:$RELEASE
 

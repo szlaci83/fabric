@@ -112,7 +112,7 @@ apt-get install -y build-essential libtool
 
 if [ x$MACHINE = xs390x ]
 then
-   #FIXME: protobufs wont compile on 390, missing atomic call
+   echo FIXME: protobufs wont compile on 390, missing atomic call
 else
    make
    make check
@@ -128,7 +128,7 @@ git clone https://github.com/facebook/rocksdb.git
 cd rocksdb
 if [ x$MACHINE = xs390x ]
 then
-    # There were some bugs in 4.1 for x/p, living dangereously, using dev stream till the fixes make into a tag
+    echo There were some bugs in 4.1 for x/p, living dangereously, using dev stream till the fixes make into a tag
 else
     git checkout tags/v4.1
 fi

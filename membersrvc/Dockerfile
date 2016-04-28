@@ -1,4 +1,4 @@
-from openblockchain/baseimage:latest
+from openblockchain/GOARCH/baseimage:latest
 # Copy GOPATH src and install Peer
 RUN mkdir -p /var/hyperledger/db
 WORKDIR $GOPATH/src/github.com/hyperledger/fabric/

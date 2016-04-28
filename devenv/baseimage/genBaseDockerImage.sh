@@ -1,13 +1,13 @@
 #!/bin/bash
 
 RELEASE=0.0.10
-MACHINE=`uname -m`
-NAME=openblockchain/$MACHINE/baseimage:$RELEASE
+GOARCH=`go env GOARCH`
+NAME=openblockchain/$GOARCH/baseimage:$RELEASE
 BASEOS=ubuntu:trusty
-if [ x$MACHINE = xs390x ]
+if [ x$GOARCH = xs390x ]
 then
     BASEOS=s390x/ubuntu
-elif [ x$MACHINE = xppc64 ]
+elif [ x$GOARCH = xppc64 ]
 then
     echo "TODO: Add PPC support"
     exit
@@ -24,5 +24,7 @@ RUN common/init.sh && docker/init.sh && common/setup.sh
 HEREDOC
 
 docker build -t $NAME .
+
+rm Dockerfile
 
 echo done

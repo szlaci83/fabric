@@ -11,8 +11,10 @@ all:
 $(VAGRANTIMAGE): packer-local.json
 	packer build -only virtualbox-iso packer-local.json
 
-docker: packer-local.json
-	packer build -only docker packer-local.json
+#docker: packer-local.json
+#	packer build -only docker packer-local.json
+docker:
+	./genBaseDockerImage.sh
 
 vagrant: $(VAGRANTIMAGE) remove
 	vagrant box add -name $(NAME) $(VAGRANTIMAGE)
