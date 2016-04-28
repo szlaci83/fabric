@@ -1,7 +1,8 @@
 #!/bin/bash
 
+RELEASE=0.0.10
 MACHINE=`uname -m`
-NAME=openblockchain/$MACHINE/baseimage
+NAME=openblockchain/$MACHINE/baseimage:$RELEASE
 BASEOS=ubuntu:trusty
 if [ x$MACHINE = xs390x ]
 then
