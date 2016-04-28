@@ -11,9 +11,12 @@ tags
 .tags
 .vagrant/
 membersrvc/membersrvc
+devenv/baseimage/Dockerfile
 # Emacs backup files
 *~
 *#
 .#*
 # bddtest log files
 *.log
+# Eclipse config files
+/.project
