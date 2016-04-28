@@ -126,11 +126,12 @@ apt-get install -y libsnappy-dev zlib1g-dev libbz2-dev
 cd /tmp
 git clone https://github.com/facebook/rocksdb.git
 cd rocksdb
+git checkout tags/v4.1
 if [ x$MACHINE = xs390x ]
 then
-    echo There were some bugs in 4.1 for x/p, living dangereously, using dev stream till the fixes make into a tag
-else
-    git checkout tags/v4.1
+    echo There were some bugs in 4.1 for x/p, dev stream has the fix, living dangereously, fixing in place
+    sed -i -e "s/-march=native/-march=zEC12/" build_tools/build_detect_platform
+    sed -i -e "s/-momit-leaf-frame-pointer/-DDUMBDUMMY/" Makefile
 fi
 
 PORTABLE=1 make shared_lib
