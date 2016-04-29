@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # To get started:
+#       sudo su
 #       yum install git
 #       mkdir -p $HOME/git/src/github.com/hyperledger
 #       cd $HOME/git/src/github.com/hyperledger
 #       git clone https://github.com/vpaprots/fabric.git
-#       fabric/devenv/setupLinuxONE.sh
+#       source fabric/devenv/setupLinuxONE.sh
+#       ~/build.sh
 
 if [ xroot != x$(whoami) ]
 then
@@ -71,6 +73,7 @@ echo There were some bugs in 4.1 for x/p, dev stream has the fix, living dangere
 sed -i -e "s/-march=native/-march=zEC12/" build_tools/build_detect_platform
 sed -i -e "s/-momit-leaf-frame-pointer/-DDUMBDUMMY/" Makefile
 make shared_lib && INSTALL_PATH=/usr make install-shared && ldconfig
+cd /tmp
 rm -rf /tmp/rocksdb
 
 ################
@@ -89,7 +92,8 @@ HEREDOC
 
 source ~/.bashrc
 
-cat > build.sh <<HEREDOC
+cat > ~/build.sh <<HEREDOC
+      set -x 
       
       cd $HOME/git/src/github.com/hyperledger/fabric/peer
       go build
@@ -104,12 +108,14 @@ cat > build.sh <<HEREDOC
       go test github.com/hyperledger/fabric/core/container -run=BuildImage_Peer
       go test github.com/hyperledger/fabric/core/container -run=BuildImage_Obcca
 
+      cd $HOME/git/src/github.com/hyperledger/fabric
       ./peer peer&
- 
-      cd $GOPATH/src/github.com/hyperledger/fabric
-      go test -timeout=20m $(go list github.com/hyperledger/fabric/... | grep -v /vendor/ | grep -v /examples/)
-    
-      cd $GOPATH/src/github.com/hyperledger/fabric/bddtests
+      pid=$!
+      go test -timeout=20m \$(go list github.com/hyperledger/fabric/... | grep -v /vendor/ | grep -v /examples/)
+      kill $pid
+      
+      cd $HOME/git/src/github.com/hyperledger/fabric/bddtests
       behave
 
 HEREDOC
+chmod +x ~/build.sh
