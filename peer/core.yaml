@@ -91,7 +91,7 @@ peer:
     networkId: dev
 
     Dockerfile:  |
-        from openblockchain/GOARCH/baseimage:latest
+        from openblockchain/%GOARCH%/baseimage:latest
         # Copy GOPATH src and install Peer
         COPY src $GOPATH/src
         RUN mkdir -p /var/hyperledger/db
@@ -285,7 +285,7 @@ chaincode:
         # This is the basis for the Golang Dockerfile.  Additional commands will
         # be appended depedendent upon the chaincode specification.
         Dockerfile:  |
-            from openblockchain/GOARCH/baseimage
+            from openblockchain/%GOARCH%/baseimage
             #from utxo:0.1.0
             COPY src $GOPATH/src
             WORKDIR $GOPATH

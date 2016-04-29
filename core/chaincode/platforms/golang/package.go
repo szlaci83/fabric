@@ -46,7 +46,7 @@ func writeChaincodePackage(spec *pb.ChaincodeSpec, tw *tar.Writer) error {
 	//let the executable's name be chaincode ID's name
 	newRunLine := fmt.Sprintf("RUN go install %s && cp src/github.com/hyperledger/fabric/peer/core.yaml $GOPATH/bin && mv $GOPATH/bin/%s $GOPATH/bin/%s", urlLocation, chaincodeGoName, spec.ChaincodeID.Name)
 
-	dockerFileContents := fmt.Sprintf("%s\n%s", strings.Replace(viper.GetString("chaincode.golang.Dockerfile"), "GOARCH", runtime.GOARCH, 1), newRunLine)
+	dockerFileContents := fmt.Sprintf("%s\n%s", strings.Replace(viper.GetString("chaincode.golang.Dockerfile"), "%GOARCH%", runtime.GOARCH, 1), newRunLine)
 	dockerFileSize := int64(len([]byte(dockerFileContents)))
 
 	//Make headers identical by using zero time
